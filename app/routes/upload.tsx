@@ -3,7 +3,7 @@ import Navbar from "~/components/Navbar";
 import FileUploader from "~/components/FileUploader";
 import {usePuterStore} from "~/lib/puter";
 import {useNavigate} from "react-router";
-import {convertPdfToImage} from "~/lib/pdf2img";
+import {convertPdfToImage, convertFileToImage} from "~/lib/pdf2img";
 import {generateUUID} from "~/lib/utils";
 import {prepareInstructions} from "../../constants";
 
@@ -18,6 +18,11 @@ const Upload = () => {
     setFile(file)
   }
 
+  const getFileType = (fileName: string) => {
+    const ext = fileName.split('.').pop()?.toLowerCase();
+    return ext;
+  }
+
   const handleAnalyze = async ({ companyName, jobTitle, jobDescription, file }: { companyName: string, jobTitle: string, jobDescription: string, file: File  }) => {
     setIsProcessing(true);
 
@@ -26,8 +31,16 @@ const Upload = () => {
     if(!uploadedFile) return setStatusText('Error: Failed to upload file');
 
     setStatusText('Converting to image...');
-    const imageFile = await convertPdfToImage(file);
-    if(!imageFile.file) return setStatusText('Error: Failed to convert PDF to image');
+    const fileType = getFileType(file.name);
+    let imageFile;
+
+    if(fileType === 'pdf') {
+      imageFile = await convertPdfToImage(file);
+    } else {
+      imageFile = await convertFileToImage(file);
+    }
+
+    if(!imageFile.file) return setStatusText('Error: Failed to convert file to image');
 
     setStatusText('Uploading the image...');
     const uploadedImage = await fs.upload([imageFile.file]);
@@ -84,7 +97,7 @@ const Upload = () => {
 
       <section className="main-section">
         <div className="page-heading py-16">
-          <h1>Smart feedback for your dream job</h1>
+          <h1>Smart Feedback for Your Dream Job</h1>
           {isProcessing ? (
             <>
               <h2>{statusText}</h2>
