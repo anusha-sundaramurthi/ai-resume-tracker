@@ -13,6 +13,8 @@
     "@react-router/serve": "^7.5.3",
     "clsx": "^2.1.1",
     "isbot": "^5.1.27",
+    "jspdf": "^3.0.3",
+    "mammoth": "^1.11.0",
     "pdfjs-dist": "^5.3.93",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -24,6 +26,7 @@
   "devDependencies": {
     "@react-router/dev": "^7.5.3",
     "@tailwindcss/vite": "^4.1.4",
+    "@types/jspdf": "^1.3.3",
     "@types/node": "^20",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
@@ -34,4 +37,3 @@
     "vite-tsconfig-paths": "^5.1.4"
   }
 }
-

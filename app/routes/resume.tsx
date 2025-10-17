@@ -78,6 +78,14 @@ const Resume = () => {
               <Summary feedback={feedback} />
               <ATS score={feedback.ATS.score || 0} suggestions={feedback.ATS.tips || []} />
               <Details feedback={feedback} />
+
+              {/* Optimizer Button */}
+              <button
+                onClick={() => navigate(`/resume/${id}/optimize`)}
+                className="primary-button w-full mt-4"
+              >
+                Get Optimized Resume
+              </button>
             </div>
           ) : (
             <img src="/images/resume-scan-2.gif" className="w-full" />
