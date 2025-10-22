@@ -48,6 +48,12 @@ const ResumeOptimizer = () => {
   const handleOptimizeResume = async () => {
     if (!resumeData) return;
 
+    // Validate required fields
+    if (!resumeData.jobTitle || !resumeData.jobDescription) {
+      setError('Job title and job description are required for optimization. Please go back and provide these details.');
+      return;
+    }
+
     setIsOptimizing(true);
     setStatusText('Generating optimized resume...');
     setError('');
@@ -56,7 +62,7 @@ const ResumeOptimizer = () => {
       const optimizationPrompt = prepareOptimizationInstructions({
         jobTitle: resumeData.jobTitle,
         jobDescription: resumeData.jobDescription,
-        companyName: resumeData.companyName,
+        companyName: resumeData.companyName || 'Target Company',
         currentFeedback: resumeData.feedback.analysis,
       });
 

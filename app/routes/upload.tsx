@@ -82,13 +82,21 @@ const Upload = () => {
     if(!form) return;
     const formData = new FormData(form);
 
-    const companyName = formData.get('company-name') as string;
-    const jobTitle = formData.get('job-title') as string;
-    const jobDescription = formData.get('job-description') as string;
+    const companyName = (formData.get('company-name') as string) || '';
+    const jobTitle = (formData.get('job-title') as string) || '';
+    const jobDescription = (formData.get('job-description') as string) || '';
 
-    if(!file) return;
+    if(!file) {
+      alert('Please upload a resume file');
+      return;
+    }
 
-    handleAnalyze({ companyName, jobTitle, jobDescription, file });
+    handleAnalyze({
+      companyName: companyName || 'Not Specified',
+      jobTitle: jobTitle || 'General Position',
+      jobDescription: jobDescription || 'General resume optimization',
+      file
+    });
   }
 
   return (
@@ -109,15 +117,15 @@ const Upload = () => {
           {!isProcessing && (
             <form id="upload-form" onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
               <div className="form-div">
-                <label htmlFor="company-name">Company Name</label>
+                <label htmlFor="company-name">Company Name (Optional for general optimization)</label>
                 <input type="text" name="company-name" placeholder="Company Name" id="company-name" />
               </div>
               <div className="form-div">
-                <label htmlFor="job-title">Job Title</label>
+                <label htmlFor="job-title">Job Title (Optional for general optimization)</label>
                 <input type="text" name="job-title" placeholder="Job Title" id="job-title" />
               </div>
               <div className="form-div">
-                <label htmlFor="job-description">Job Description</label>
+                <label htmlFor="job-description">Job Description (Optional for general optimization)</label>
                 <textarea rows={5} name="job-description" placeholder="Job Description" id="job-description" />
               </div>
 

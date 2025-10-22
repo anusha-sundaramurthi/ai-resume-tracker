@@ -281,6 +281,7 @@ CRITICAL ATS OPTIMIZATION REQUIREMENTS (MUST FOLLOW ALL):
 3. CONTENT STRUCTURE (25 points):
    - Start with candidate name (UPPERCASE, bold)
    - Contact info in one line with | separators
+   - CRITICAL: Preserve ALL URLs exactly as they appear in original resume - DO NOT modify, shorten, or change any character
    - Professional Summary: 3-4 lines, keyword-rich, tailored to job
    - Experience: Reverse chronological order
    - Each role: Job Title (bold), Company name, Location | Duration
@@ -310,10 +311,17 @@ MANDATORY FORMATTING RULES:
 - Bullet points: Start each line with • character
 - Dates: Use format "Month Year - Month Year" or "Month Year - Present"
 
+CRITICAL INSTRUCTION FOR CONTACT INFORMATION:
+- Preserve ALL URLs EXACTLY as they appear in the original resume
+- DO NOT shorten, modify, or change any part of LinkedIn/GitHub/portfolio URLs
+- Keep all numbers, hyphens, underscores in URLs intact
+- Example: If original is linkedin.com/in/username1234, keep it as linkedin.com/in/username1234
+- Example: If original is github.com/user-name-123, keep it as github.com/user-name-123
+
 OUTPUT STRUCTURE (FOLLOW EXACTLY):
 
 [CANDIDATE NAME IN UPPERCASE]
-[City, State | Phone | Email | LinkedIn URL]
+[City, State | Phone | Email | LinkedIn URL (EXACT from original) | GitHub URL (EXACT from original)]
 
 PROFESSIONAL SUMMARY
 [3-4 lines packed with keywords from job description, quantified achievements, and relevant certifications. Must include top 5 keywords from job posting.]
@@ -351,6 +359,7 @@ ACHIEVEMENTS
 • [Achievement with quantified result if possible]
 
 CRITICAL REMINDERS:
+- PRESERVE EXACT URLs - Do not remove numbers, hyphens, underscores from LinkedIn/GitHub/portfolio links
 - Every keyword from job description MUST appear at least once
 - Use exact terminology from job posting
 - Include relevant certifications if mentioned in original resume

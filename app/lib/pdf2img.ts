@@ -33,27 +33,53 @@ export async function convertPdfToImage(
 
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
-    const page = await pdf.getPage(1);
+    const numPages = pdf.numPages;
 
-    const viewport = page.getViewport({ scale: 4 });
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
+    // Create canvas for combined image
+    const scale = 4;
+    const canvases: HTMLCanvasElement[] = [];
 
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
+    // Render all pages
+    for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
 
-    if (context) {
-      context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = "high";
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      if (context) {
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = "high";
+      }
+
+      await page.render({ canvasContext: context!, viewport }).promise;
+      canvases.push(canvas);
     }
 
-    await page.render({ canvasContext: context!, viewport }).promise;
+    // Combine all pages into one tall canvas
+    const finalCanvas = document.createElement("canvas");
+    const finalContext = finalCanvas.getContext("2d");
+
+    const width = canvases[0].width;
+    const totalHeight = canvases.reduce((sum, canvas) => sum + canvas.height, 0);
+
+    finalCanvas.width = width;
+    finalCanvas.height = totalHeight;
+
+    if (finalContext) {
+      let yOffset = 0;
+      for (const canvas of canvases) {
+        finalContext.drawImage(canvas, 0, yOffset);
+        yOffset += canvas.height;
+      }
+    }
 
     return new Promise((resolve) => {
-      canvas.toBlob(
+      finalCanvas.toBlob(
         (blob) => {
           if (blob) {
-            // Create a File from the blob with the same name as the pdf
             const originalName = file.name.replace(/\.pdf$/i, "");
             const imageFile = new File([blob], `${originalName}.png`, {
               type: "image/png",
@@ -73,7 +99,7 @@ export async function convertPdfToImage(
         },
         "image/png",
         1.0
-      ); // Set quality to maximum (1.0)
+      );
     });
   } catch (err) {
     return {
@@ -260,9 +286,8 @@ async function convertTextToImage(
   }
 }
 
-async function convertDocxToImage(
-  file: File
-): Promise<PdfConversionResult> {
+async function convertDocxToImage(file: File):
+  Promise<PdfConversionResult> {
   try {
     // @ts-expect-error - mammoth is a library for docx conversion
     const mammoth = await import("mammoth");
