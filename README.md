@@ -149,7 +149,7 @@ Puter.js handles:
 ## 📌 GitHub Repository
 
 ```
-https://github.com/anusha-sundaramurthi/resumate
+https://github.com/anusha-sundaramurthi/ai-resume-tracker
 ```
 
 ---
